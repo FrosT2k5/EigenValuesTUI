@@ -101,7 +101,9 @@ def noOfRowsSubmit(manager: ptg.WindowManager, window: ptg.Window) -> None:
         .set_title("[210 bold]Enter matrix.")
         .center()
     )
-    
+    window.bind(ptg.keys.CARRIAGE_RETURN, lambda *_: matrixSubmit(manager, window, noOfRows))
+    window.bind(ptg.keys.ENTER, lambda *_: matrixSubmit(manager, window, noOfRows))
+
     manager.add(window)
 
 
