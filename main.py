@@ -18,8 +18,6 @@ def inputMatrix(numberOfRows: int):
         box += tuple(rowTuple)
         box += ""
 
-    with open("file.txt","w") as f:
-            f.write(str(box[1]))
     return box.center()
 
 def InfoWindow(manager: ptg.WindowManager, text: str, answer=None) -> None:
