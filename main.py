@@ -37,9 +37,26 @@ def InfoWindow(manager: ptg.WindowManager, text: str, answer=None) -> None:
     modal.select(1)
     manager.add(modal)
 
-def showEigenVectors(manager: ptg.WindowManager, window: ptg.Window) -> None:
-    None
-
+def showEigenVectors(manager: ptg.WindowManager, window: ptg.Window, eigVects: list) -> None:
+    newWindow = ptg.Window(
+        "Eigen Vectors: ",
+        "",
+    ).center()
+    
+    window.close()
+    
+    for vect in eigVects:
+        outStr = ""
+        for val in vect:
+            outStr += str(val) + "  "
+            
+        label = ptg.Label("=> "+ outStr + "<=")
+        newWindow.__add__(label)
+    
+    newWindow.__add__("")
+    newWindow.__add__(ptg.Button("Ok", lambda *_: print()))
+    manager.add(newWindow)
+    
 def matrixSubmit(manager: ptg.WindowManager, window: ptg.Window, noOfRows: int):
     userInput = []
     box = window[0]
@@ -67,7 +84,8 @@ def matrixSubmit(manager: ptg.WindowManager, window: ptg.Window, noOfRows: int):
     eigenValuesStr = ""
     for i in eigValues:
         eigenValuesStr += str(i) + " "
-
+    eigenValuesStr += ""
+    
     eigenValueWindow = ptg.Window(
         "",
         ptg.Label("Eigen values are: "),
@@ -75,8 +93,14 @@ def matrixSubmit(manager: ptg.WindowManager, window: ptg.Window, noOfRows: int):
         "",
         ptg.Label(eigenValuesStr),
         "",
-        ["Submit", lambda *_: showEigenVectors(manager, window)],
+        ["Submit", lambda *_: showEigenVectors(manager, eigenValueWindow, eigVectsList)],
     ).center()
+    
+    eigVectsList = []
+    for i in range(len(eigVects)):
+        eigVectsList.append(eigVects[i][2][0])
+    
+    #eigenValueWindow.bind(ptg.keys.ENTER, showEigenVectors(manager, eigenValueWindow, eigVectsList))
     manager.add(eigenValueWindow)
 
 
