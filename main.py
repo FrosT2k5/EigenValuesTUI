@@ -40,19 +40,23 @@ def showEigenVectors(manager: ptg.WindowManager, window: ptg.Window, eigVects: l
         "Eigen Vectors: ",
         "",
     ).center()
-    
+
     window.close()
-    
+
     for vect in eigVects:
         outStr = ""
         for val in vect:
             outStr += str(val) + "  "
-            
+
         label = ptg.Label("=> "+ outStr + "<=")
         newWindow.__add__(label)
     
+    def restart():
+        newWindow.close()
+        main()
+
     newWindow.__add__("")
-    newWindow.__add__(ptg.Button("Ok", lambda *_: print()))
+    newWindow.__add__(ptg.Button("Ok", lambda *_: restart()))
     manager.add(newWindow)
     
 def matrixSubmit(manager: ptg.WindowManager, window: ptg.Window, noOfRows: int):
@@ -80,18 +84,28 @@ def matrixSubmit(manager: ptg.WindowManager, window: ptg.Window, noOfRows: int):
     eigValues = mat.eigenvals()
     eigVects = mat.eigenvects()
     eigenValuesStr = ""
+    eigenValuesCount = 0
     for i in eigValues:
         eigenValuesStr += str(i) + " "
+        eigenValuesCount += 1
     eigenValuesStr += ""
-    
+   
+    derogatoryText = ""
+    if noOfRows > eigenValuesCount:
+        derogatoryText = "Eigen values are repeated, \nMatrix is Derogatory"
+    else:
+        derogatoryText = "Eigen values are not repeated, \nMatrix is NOT Derogatory"
     eigenValueWindow = ptg.Window(
         "",
         ptg.Label("Eigen values are: "),
         "",
-        "",
         ptg.Label(eigenValuesStr),
         "",
+        ptg.Label(derogatoryText),
+        "",
         ["Submit", lambda *_: showEigenVectors(manager, eigenValueWindow, eigVectsList)],
+        "",
+        ""
     ).center()
     
     eigVectsList = []
@@ -128,26 +142,29 @@ def noOfRowsSubmit(manager: ptg.WindowManager, window: ptg.Window) -> None:
 
     manager.add(window)
 
+def main():
+    with ptg.WindowManager() as manager:
+        inputField = ptg.InputField("", prompt="No of rows in square matrix: ")
 
-with ptg.WindowManager() as manager:
-    inputField = ptg.InputField("", prompt="No of rows in square matrix: ")
-
-    window = (
-        ptg.Window(
-            "",
-            inputField,
-            "",
-            "",
-            "",
-            ["Submit", lambda *_: noOfRowsSubmit(manager, window)],
-            width=60,
-            box="DOUBLE",
+        window = (
+            ptg.Window(
+                "",
+                inputField,
+                "",
+                "",
+                "",
+                ["Submit", lambda *_: noOfRowsSubmit(manager, window)],
+                width=60,
+                box="DOUBLE",
+            )
+            .set_title("[210 bold]Eigen Values and Eigen Vectors Calculator.")
+            .center()
         )
-        .set_title("[210 bold]Eigen Values and Eigen Vectors Calculator.")
-        .center()
-    )
 
-    inputField.bind(ptg.keys.CARRIAGE_RETURN, lambda *_: noOfRowsSubmit(manager, window))
-    inputField.bind(ptg.keys.ENTER, lambda *_: noOfRowsSubmit(manager, window))
+        inputField.bind(ptg.keys.CARRIAGE_RETURN, lambda *_: noOfRowsSubmit(manager, window))
+        inputField.bind(ptg.keys.ENTER, lambda *_: noOfRowsSubmit(manager, window))
 
-    manager.add(window)
+        manager.add(window)
+
+if __name__ == "__main__":
+    main()
