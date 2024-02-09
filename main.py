@@ -83,13 +83,13 @@ def matrixSubmit(manager: ptg.WindowManager, window: ptg.Window, noOfRows: int):
                 userInput.append(val)
             except:
                 None
-    
-    # with open('file.txt','w') as f:
-    #     f.write(str(userInput))
-    # outputField = ptg.Label(str(userInput))
-    # window.__add__(outputField)
+
+    if len(userInput) < noOfRows**2:
+        InfoWindow(manager, "Please input all elements of matrix", "")
+        return
 
     mat = Matrix(noOfRows,noOfRows,userInput)
+
     eigValues = mat.eigenvals()
     eigVects = mat.eigenvects()
     eigenValuesStr = ""
