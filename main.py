@@ -104,6 +104,8 @@ def matrixSubmit(manager: ptg.WindowManager, window: ptg.Window, noOfRows: int):
         derogatoryText = "Eigen values are repeated, \nMatrix is Derogatory"
     else:
         derogatoryText = "Eigen values are not repeated, \nMatrix is NOT Derogatory"
+
+    window.close()
     eigenValueWindow = ptg.Window(
         "",
         ptg.Label("Eigen values are: "),
