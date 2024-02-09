@@ -1,6 +1,7 @@
 import pytermgui as ptg
 from re import match
 from sympy import Matrix
+from time import sleep
 
 def inputMatrix(numberOfRows: int):
     box = ptg.Container()
@@ -20,6 +21,12 @@ def inputMatrix(numberOfRows: int):
 
     return box.center()
 
+def exitProgram(manager: ptg.WindowManager, window: ptg.Window):
+    window.close()
+    sleep(0.85)
+    manager.stop()
+    exit(0)
+
 def InfoWindow(manager: ptg.WindowManager, text: str, answer=None) -> None:
     outString = "[red]" + text
     if answer:
@@ -32,6 +39,7 @@ def InfoWindow(manager: ptg.WindowManager, text: str, answer=None) -> None:
         width=len(outString)+10
     ).center()
 
+    modal.bind("q", lambda *_: exitProgram(manager, modal))
     modal.select(1)
     manager.add(modal)
 
@@ -57,6 +65,7 @@ def showEigenVectors(manager: ptg.WindowManager, window: ptg.Window, eigVects: l
 
     newWindow.__add__("")
     newWindow.__add__(ptg.Button("Ok", lambda *_: restart()))
+    newWindow.bind("q", lambda *_: exitProgram(manager, newWindow))
     manager.add(newWindow)
     
 def matrixSubmit(manager: ptg.WindowManager, window: ptg.Window, noOfRows: int):
@@ -107,7 +116,8 @@ def matrixSubmit(manager: ptg.WindowManager, window: ptg.Window, noOfRows: int):
         "",
         ""
     ).center()
-    
+    eigenValueWindow.bind("q", lambda *_: exitProgram(manager, eigenValueWindow))
+
     eigVectsList = []
     for i in range(len(eigVects)):
         eigVectsList.append(eigVects[i][2][0])
@@ -139,6 +149,7 @@ def noOfRowsSubmit(manager: ptg.WindowManager, window: ptg.Window) -> None:
     )
     window.bind(ptg.keys.CARRIAGE_RETURN, lambda *_: matrixSubmit(manager, window, noOfRows))
     window.bind(ptg.keys.ENTER, lambda *_: matrixSubmit(manager, window, noOfRows))
+    window.bind("q", lambda *_: exitProgram(manager, window))
 
     manager.add(window)
 
@@ -163,6 +174,7 @@ def main():
 
         inputField.bind(ptg.keys.CARRIAGE_RETURN, lambda *_: noOfRowsSubmit(manager, window))
         inputField.bind(ptg.keys.ENTER, lambda *_: noOfRowsSubmit(manager, window))
+        window.bind("q", lambda *_: exitProgram(manager, window))
 
         manager.add(window)
 
