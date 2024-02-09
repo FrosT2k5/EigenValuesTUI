@@ -61,7 +61,7 @@ def showEigenVectors(manager: ptg.WindowManager, window: ptg.Window, eigVects: l
     
     def restart():
         newWindow.close()
-        main()
+        main(manager)
 
     newWindow.__add__("")
     newWindow.__add__(ptg.Button("Ok", lambda *_: restart()))
@@ -135,7 +135,7 @@ def noOfRowsSubmit(manager: ptg.WindowManager, window: ptg.Window) -> None:
         InfoWindow(manager, "Please enter a correct value, Number between 1 to 5: "+ inputValue)
         return
 
-    noOfRows = int(inputValue)    
+    noOfRows = int(inputValue)
     box = inputMatrix(noOfRows)
     manager.remove(window)
 
@@ -155,30 +155,31 @@ def noOfRowsSubmit(manager: ptg.WindowManager, window: ptg.Window) -> None:
 
     manager.add(window)
 
-def main():
-    with ptg.WindowManager() as manager:
-        inputField = ptg.InputField("", prompt="No of rows in square matrix: ")
+def main(manager: ptg.WindowManager):
 
-        window = (
-            ptg.Window(
-                "",
-                inputField,
-                "",
-                "",
-                "",
-                ["Submit", lambda *_: noOfRowsSubmit(manager, window)],
-                width=60,
-                box="DOUBLE",
-            )
-            .set_title("[210 bold]Eigen Values and Eigen Vectors Calculator.")
-            .center()
+    inputField = ptg.InputField("", prompt="No of rows in square matrix: ")
+
+    window = (
+        ptg.Window(
+            "",
+            inputField,
+            "",
+            "",
+            "",
+            ["Submit", lambda *_: noOfRowsSubmit(manager, window)],
+            width=60,
+            box="DOUBLE",
         )
+        .set_title("[210 bold]Eigen Values and Eigen Vectors Calculator.")
+        .center()
+    )
 
-        inputField.bind(ptg.keys.CARRIAGE_RETURN, lambda *_: noOfRowsSubmit(manager, window))
-        inputField.bind(ptg.keys.ENTER, lambda *_: noOfRowsSubmit(manager, window))
-        window.bind("q", lambda *_: exitProgram(manager, window))
+    inputField.bind(ptg.keys.CARRIAGE_RETURN, lambda *_: noOfRowsSubmit(manager, window))
+    inputField.bind(ptg.keys.ENTER, lambda *_: noOfRowsSubmit(manager, window))
+    window.bind("q", lambda *_: exitProgram(manager, window))
 
-        manager.add(window)
+    manager.add(window)
 
 if __name__ == "__main__":
-    main()
+    with ptg.WindowManager() as manager:
+        main(manager)
