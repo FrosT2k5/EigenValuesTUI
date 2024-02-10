@@ -33,9 +33,11 @@ def InfoWindow(manager: ptg.WindowManager, text: str, answer=None) -> None:
         outString += "[skyblue bold]" + str(answer)
 
     modal = ptg.Window(
+        "",
         outString,
         "",
         ptg.Button("Ok", lambda *_: modal.close()),
+        "",
         width=len(outString)+10
     ).center()
 
@@ -45,6 +47,7 @@ def InfoWindow(manager: ptg.WindowManager, text: str, answer=None) -> None:
 
 def showEigenVectors(manager: ptg.WindowManager, window: ptg.Window, eigVects: list) -> None:
     newWindow = ptg.Window(
+        "",
         "Eigen Vectors: ",
         "",
     ).center()
@@ -65,12 +68,13 @@ def showEigenVectors(manager: ptg.WindowManager, window: ptg.Window, eigVects: l
 
     newWindow.__add__("")
     newWindow.__add__(ptg.Button("Ok", lambda *_: restart()))
+    newWindow.__add__("")
     newWindow.bind("q", lambda *_: exitProgram(manager, newWindow))
     manager.add(newWindow)
     
 def matrixSubmit(manager: ptg.WindowManager, window: ptg.Window, noOfRows: int):
     userInput = []
-    box = window[0]
+    box = window[1]
 
     for i in range(len(box)):
         try:
@@ -141,10 +145,12 @@ def noOfRowsSubmit(manager: ptg.WindowManager, window: ptg.Window) -> None:
 
     window = (
         ptg.Window(
+            "",
             box,
             "",
             "",
-            ["Submit", lambda *_: matrixSubmit(manager, window, noOfRows)]
+            ["Submit", lambda *_: matrixSubmit(manager, window, noOfRows)],
+            ""
         )
         .set_title("[210 bold]Enter matrix.")
         .center()
@@ -167,6 +173,7 @@ def main(manager: ptg.WindowManager):
             "",
             "",
             ["Submit", lambda *_: noOfRowsSubmit(manager, window)],
+            "",
             width=60,
             box="DOUBLE",
         )
