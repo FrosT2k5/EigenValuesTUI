@@ -95,10 +95,10 @@ def matrixSubmit(manager: ptg.WindowManager, window: ptg.Window, noOfRows: int):
     eigenValuesStr = ""
     eigenValuesCount = 0
     for i in eigValues:
-        eigenValuesStr += str(i) + " "
+        eigenValuesStr += str(i) + " , "
         eigenValuesCount += 1
-    eigenValuesStr += ""
-   
+    eigenValuesStr = eigenValuesStr[:-2]
+
     derogatoryText = ""
     if noOfRows > eigenValuesCount:
         derogatoryText = "Eigen values are repeated, \nMatrix is Derogatory"
