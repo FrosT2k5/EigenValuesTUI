@@ -135,7 +135,7 @@ def matrixSubmit(manager: ptg.WindowManager, window: ptg.Window, noOfRows: int):
 def noOfRowsSubmit(manager: ptg.WindowManager, window: ptg.Window) -> None:
     inputValue = window[1].value
     
-    if not match("[0-5]",inputValue):
+    if not match("^[0-5]$",inputValue):
         InfoWindow(manager, "Please enter a correct value, Number between 1 to 5: "+ inputValue)
         return
 
