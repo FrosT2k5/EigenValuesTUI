@@ -33,7 +33,8 @@ python main.py
 6. Mouse OR up and down arrow keys can be used to select buttons and input fields
 
 # Screenshots
-
+<img src="images/1.jpg">
+<img src="images/2.jpg">
 
 # Libraries used 
 - [sympy](https://sympy.org) - Used to calculate Eigen Values & Eigen Vectors
