@@ -22,7 +22,7 @@ cd EigenValuesTUI
 
 4. Install requirements via pip
 ```
-pip install -r requirement.txt
+pip install -r requirements.txt
 ```
 
 5. Run main.py
